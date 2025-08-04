@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Biblioteca Rosa 🌸</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap');
+
+    body {
+      background: #fff0f6;
+      font-family: 'Poppins', sans-serif;
+      color: #5a2a52;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    h1 {
+      font-family: 'Pacifico', cursive;
+      color: #d6336c;
+      font-size: 3rem;
+      margin-bottom: 10px;
+      text-align: center;
+      letter-spacing: 3px;
+      text-shadow: 1px 1px 2px #f8bbd0;
+    }
+    p.add-button {
+      text-align: center;
+      margin: 20px 0;
+    }
+    a.add-btn {
+      background: #f48fb1;
+      color: white;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 30px;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(244, 143, 177, 0.4);
+      transition: background 0.3s ease;
+      display: inline-block;
+    }
+    a.add-btn:hover {
+      background: #d81b60;
+      box-shadow: 0 6px 12px rgba(216, 27, 96, 0.6);
+    }
+    section {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(216, 27, 96, 0.15);
+    }
+    h2 {
+      color: #d6336c;
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #f48fb1;
+      padding-bottom: 8px;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    li {
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      background: #fff0f6;
+      box-shadow: inset 0 0 6px #f8bbd0;
+      transition: background 0.3s ease;
+    }
+    li:hover {
+      background: #fce4ec;
+    }
+    strong {
+      font-size: 1.1rem;
+      color: #7b2d57;
+    }
+    .autor {
+      font-style: italic;
+      color: #a05277;
+    }
+    .etiquetas {
+      margin-top: 8px;
+    }
+    .etiquetas span {
+      display: inline-block;
+      background: #f8bbd0;
+      color: #7b2d57;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-right: 8px;
+      margin-bottom: 6px;
+      box-shadow: 0 2px 6px rgba(216, 27, 96, 0.3);
+    }
+    .acciones {
+      margin-top: 12px;
+    }
+    .acciones a {
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 25px;
+      margin-right: 10px;
+      box-shadow: 0 3px 8px rgba(216, 27, 96, 0.4);
+      transition: background 0.3s ease;
+      font-size: 0.9rem;
+    }
+    .acciones a.editar {
+      background: #f48fb1;
+    }
+    .acciones a.editar:hover {
+      background: #d81b60;
+      box-shadow: 0 5px 12px rgba(216, 27, 96, 0.7);
+    }
+    .acciones a.eliminar {
+      background: #f06292;
+    }
+    .acciones a.eliminar:hover {
+      background: #b71c46;
+      box-shadow: 0 5px 12px rgba(183, 28, 70, 0.7);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+      section {
+        padding: 15px;
+      }
+      li {
+        padding: 12px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Biblioteca Rosa 🌸</h1>
+
+  <p class="add-button">
+    <a href="{{ url_for('agregar') }}" class="add-btn">➕ Agregar nuevo libro</a>
+  </p>
+
+  {% for categoria, libros in categorias.items() %}
+    <section>
+      <h2>{{ categoria }}</h2>
+      <ul>
+        {% for libro in libros %}
+          <li>
+            <strong>{{ libro.titulo }}</strong> <span class="autor">— {{ libro.autor }}</span>
+            <div class="etiquetas">
+              {% for etiqueta in libro.etiquetas.split(',') %}
+                <span>{{ etiqueta.strip() }}</span>
+              {% endfor %}
+            </div>
+            <div class="acciones">
+              <a href="{{ url_for('editar', id=libro.id) }}" class="editar">✏️ Editar</a>
+              <a href="{{ url_for('eliminar', id=libro.id) }}" class="eliminar" onclick="return confirm('¿Eliminar este libro?');">🗑️ Eliminar</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endfor %}
+</body>
+</html>
